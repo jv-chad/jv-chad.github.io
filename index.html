@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Happy 32nd Birthday!</title>
+<title>Happy 32nd Birthday Chad!</title>
 <style>
   /* Reset and background */
   body {
@@ -13,10 +13,13 @@
     font-family: 'Comic Sans MS', cursive, sans-serif;
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     height: 100vh;
-    color: white;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  /* Canvas for fireworks */
+  /* Canvas for fireworks - full screen */
   #fireworks-canvas {
     position: fixed;
     top: 0;
@@ -34,7 +37,9 @@
     transform: translate(-50%, -50%);
     text-align: center;
     color: #ffe600;
-    font-size: 3em;
+    font-size: calc(2em + 2vw);
+    padding: 10px;
+    max-width: 90%;
     text-shadow: 0 0 20px #ffe600, 0 0 30px #ff006e, 0 0 40px #00ffe6;
     z-index: 2;
     animation: pulse 2s infinite;
@@ -43,7 +48,7 @@
   /* Subtext styling */
   .subtext {
     margin-top: 20px;
-    font-size: 2em;
+    font-size: calc(1.5em + 1vw);
     color: #fff;
     text-shadow: 0 0 10px #fff, 0 0 20px #f0f, 0 0 30px #0ff;
   }
@@ -57,8 +62,8 @@
   /* Confetti explosion styles */
   .confetti {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     background-color: #ff006e;
     opacity: 1;
     border-radius: 50%;
@@ -71,6 +76,16 @@
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
     100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
   }
+
+  /* Responsive font sizes for very small screens */
+  @media(max-width: 400px) {
+    .message {
+      font-size: calc(1.5em + 1vw);
+    }
+    .subtext {
+      font-size: calc(1.2em + 0.8vw);
+    }
+  }
 </style>
 </head>
 <body>
@@ -79,7 +94,7 @@
 
 <div class="message">
   🎉 Happy 32nd Birthday Chad! 🎉
-  <div class="subtext">Joseph Vincent Chad! 🎂✨</div>
+  <div class="subtext">Surprise! 🎂✨</div>
 </div>
 
 <script>
