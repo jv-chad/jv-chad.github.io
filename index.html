@@ -30,6 +30,16 @@
       cursor: pointer;
       font-size: 1em;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      
+      /* Hide the button's text visually but keep it accessible for interaction */
+      /* Uncomment one of the following options: */
+
+      /* Option 1: hide text visually but keep accessible for screen readers */
+      color: transparent;
+      text-shadow: none;
+
+      /* Option 2: hide text with text-indent (more compatible) */
+      /* text-indent: -9999px; */
     }
   </style>
 </head>
@@ -176,11 +186,13 @@
         if (!isPlaying) {
           music.play();
           isPlaying = true;
-          musicButton.textContent = 'Pause Music';
+          // Keep the button text empty
+          musicButton.textContent = '';
         } else {
           music.pause();
           isPlaying = false;
-          musicButton.textContent = 'Play Music';
+          // Keep the button text empty
+          musicButton.textContent = '';
         }
       });
     </script>
