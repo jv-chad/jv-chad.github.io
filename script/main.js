@@ -10,14 +10,28 @@ window.addEventListener('load', () => {
         cancelButtonText: 'No',
     }).then((result) => {
         if (result.isConfirmed) {
-            document.querySelector('.song').play();
-            animationTimeline();
+            const song = document.querySelector('.song');
+            // Play music only if user confirms
+            song.play().then(() => {
+                // Play successful
+                animationTimeline();
+            }).catch((error) => {
+                // Handle error, e.g., autoplay blocked
+                console.log('Music playback failed:', error);
+                // Optionally, notify user
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: 'Music could not autoplay. Please tap to start.',
+                });
+                // Still run animation
+                animationTimeline();
+            });
         } else {
             animationTimeline();
         }
     });
 });
-
 
 // animation timeline
 const animationTimeline = () => {
