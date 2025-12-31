@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Happy 32nd Birthday!</title>
+<style>
+  /* Reset and background */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    height: 100vh;
+    color: white;
+  }
+
+  /* Canvas for fireworks */
+  #fireworks-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  /* Main message styling */
+  .message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #ffe600;
+    font-size: 3em;
+    text-shadow: 0 0 20px #ffe600, 0 0 30px #ff006e, 0 0 40px #00ffe6;
+    z-index: 2;
+    animation: pulse 2s infinite;
+  }
+
+  /* Subtext styling */
+  .subtext {
+    margin-top: 20px;
+    font-size: 2em;
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 0 0 20px #f0f, 0 0 30px #0ff;
+  }
+
+  /* Pulsing animation for the message */
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.05); }
+  }
+
+  /* Confetti explosion styles */
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ff006e;
+    opacity: 1;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 3;
+    animation: confetti-fall 3s forwards;
+  }
+
+  @keyframes confetti-fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="fireworks-canvas"></canvas>
+
+<div class="message">
+  🎉 Happy 32nd Birthday Chad! 🎉
+  <div class="subtext">Joseph Vincent Chad! 🎂✨</div>
+</div>
+
+<script>
+  // Fireworks effect
+  const canvas = document.getElementById('fireworks-canvas');
+  const ctx = canvas.getContext('2d');
+  let cw, ch;
+  let particles = [];
+
+  function resize() {
+    cw = window.innerWidth;
+    ch = window.innerHeight;
+    canvas.width = cw;
+    canvas.height = ch;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor(x, y, color) {
+      this.x = x;
+      this.y = y;
+      this.angle = Math.random() * 2 * Math.PI;
+      this.speed = Math.random() * 8 + 2;
+      this.radius = Math.random() * 2 + 1;
+      this.color = color;
+      this.alpha = 1;
+      this.life = 0;
+    }
+
+    update() {
+      this.x += Math.cos(this.angle) * this.speed;
+      this.y += Math.sin(this.angle) * this.speed;
+      this.speed *= 0.98; // slow down
+      this.alpha -= 0.02;
+      this.life++;
+    }
+
+    draw() {
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function createFirework() {
+    const x = Math.random() * cw * 0.8 + cw * 0.1;
+    const y = Math.random() * ch * 0.4 + ch * 0.2;
+    const colors = ['#FF006E', '#00FFC8', '#FFE600', '#FF6F00', '#00FFEA', '#FF00FF'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const particlesCount = 50 + Math.random() * 50;
+
+    for (let i = 0; i < particlesCount; i++) {
+      particles.push(new Particle(x, y, color));
+    }
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.fillRect(0, 0, cw, ch);
+
+    if (Math.random() < 0.02) {
+      createFirework();
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.update();
+      p.draw();
+      if (p.alpha <= 0.05 || p.life > 100) {
+        particles.splice(i, 1);
+      }
+    }
+  }
+
+  animate();
+
+  // Confetti explosion on page load
+  function createConfetti() {
+    for (let i = 0; i < 100; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.top = Math.random() * 20 + '%';
+      document.body.appendChild(confetti);
+      setTimeout(() => {
+        confetti.remove();
+      }, 3000);
+    }
+  }
+
+  // Trigger confetti explosion after a delay
+  setTimeout(createConfetti, 500);
+</script>
+
+</body>
+</html>
